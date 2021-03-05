@@ -1,0 +1,25 @@
+<h1>Show Event</h1>
+
+<ul>
+
+  <li>
+    <strong>Name:</strong>
+    <%= @happening.name %>
+  </li>
+
+  <li>
+    <strong>Date:</strong>
+    <%= @happening.date %>
+  </li>
+
+
+
+</ul>
+
+<p>
+  <strong>Description:</strong>
+  <%= @happening.desc %>
+</p>
+
+<span><%= link "Edit", to: Routes.happening_path(@conn, :edit, @happening) %></span>
+<span><%= link "Back", to: Routes.happening_path(@conn, :index) %></span>

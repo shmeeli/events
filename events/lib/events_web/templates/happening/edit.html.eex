@@ -1,0 +1,5 @@
+<h1>Edit Happening</h1>
+
+<%= render "form.html", Map.put(assigns, :action, Routes.happening_path(@conn, :update, @happening)) %>
+
+<span><%= link "Back", to: Routes.happening_path(@conn, :index) %></span>
