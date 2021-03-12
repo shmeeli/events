@@ -44,7 +44,10 @@ defmodule Events.Happenings do
       ** (Ecto.NoResultsError)
 
   """
-  def get_happening!(id), do: Repo.get!(Happening, id)
+  def get_happening!(id) do
+    Repo.get!(Happening, id)
+    |> Repo.preload(:user)
+  end
 
   @doc """
   Creates a happening.
@@ -62,6 +65,16 @@ defmodule Events.Happenings do
     %Happening{}
     |> Happening.changeset(attrs)
     |> Repo.insert()
+  end
+
+  def load_comments(%Happening{} = happening) do
+    Repo.preload(happening, [comments: :user])
+  end
+
+  def get_comment_by_id(user_id) do
+    query = from(h in Happening, where: h.user_id == ^user_id, select: h)
+    #Repo.get_by(Happening, user_id: user_id)
+    Repo.all(query)
   end
 
   @doc """

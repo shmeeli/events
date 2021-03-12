@@ -1,10 +1,16 @@
-<h1>Show Event</h1>
+<h1><%= @happening.name %></h1>
 
 <ul>
 
   <li>
-    <strong>Name:</strong>
-    <%= @happening.name %>
+    <strong>Hosted by:</strong>
+    <%= @happening.user.name %>
+    <img src="<%= Routes.user_path(@conn, :photo, @happening.user) %>" width="50" height="50" alt="">
+  </li>
+
+  <li>
+    <strong>Email:</strong>
+    <%= @happening.user.email %>
   </li>
 
   <li>
@@ -12,14 +18,47 @@
     <%= @happening.date %>
   </li>
 
-
+  <li>
+    <%= link "Invite Link", to: Routes.happening_path(@conn, :show, @happening) %>
+  </li>
 
 </ul>
 
+
 <p>
-  <strong>Description:</strong>
+  <strong>Event Description:</strong>
   <%= @happening.desc %>
 </p>
+<%= if current_user_id?(@conn, @happening.user_id) do %>
+  <span><%= link "Edit-Event", to: Routes.happening_path(@conn, :edit, @happening) %></span>
+<% end %>
 
-<span><%= link "Edit", to: Routes.happening_path(@conn, :edit, @happening) %></span>
-<span><%= link "Back", to: Routes.happening_path(@conn, :index) %></span>
+<h2>Add Comment</h2>
+
+<%= if have_current_user?(@conn) do %>
+  <%= render(
+    EventsWeb.CommentView,
+    "form.html",
+    changeset: @new_comment,
+    action: Routes.comment_path(@conn, :create)
+  ) %>
+<% end %>
+
+<h2>Comments</h2>
+
+<%= for comm <- @happening.comments do %>
+  <div class="card">
+    <div class="card-body">
+      <p>Posted by <%= comm.user.name %> <img src="<%= Routes.user_path(@conn, :photo, comm.user) %>" width="50" height="50" alt="">
+
+      <%= if current_user_id?(@conn, comm.user_id) || current_user_id?(@conn, @happening.user_id) do %>
+
+          <span><%= link "Edit", to: Routes.comment_path(@conn, :edit, comm) %></span>
+          <span><%= link "Delete", to: Routes.comment_path(@conn, :delete, comm), method: :delete, data: [confirm: "Are you sure?"] %></span>
+
+      <% end %>
+      </p>
+      <p class="card-text"><%= comm.body %></p>
+    </div>
+  </div>
+<% end %>

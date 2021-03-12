@@ -1,6 +1,6 @@
-<h1>Listing Users</h1>
+<h1>Edit User</h1>
 <!--Code adapted from Nat Tuck's lecture -->
-<table>
+<table class="table table-striped">
   <thead>
     <tr>
       <th>Name</th>
@@ -11,6 +11,7 @@
   </thead>
   <tbody>
 <%= for user <- @users do %>
+  <%= if current_user_id?(@conn, user) do %>
     <tr>
       <td><%= user.name %></td>
       <td><%= user.email %></td>
@@ -18,11 +19,9 @@
       <td>
         <span><%= link "Show", to: Routes.user_path(@conn, :show, user) %></span>
         <span><%= link "Edit", to: Routes.user_path(@conn, :edit, user) %></span>
-        <span><%= link "Delete", to: Routes.user_path(@conn, :delete, user), method: :delete, data: [confirm: "Are you sure?"] %></span>
       </td>
     </tr>
+  <% end %>
 <% end %>
   </tbody>
 </table>
-
-<span><%= link "New User", to: Routes.user_path(@conn, :new) %></span>

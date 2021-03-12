@@ -12,8 +12,12 @@
   <%= error_tag f, :name %>
 
   <%= label f, :date %>
-  <%= textarea f, :date, class: "form-control" %>
+  <%= date_select f, :date, builder: fn b -> %>
+     <%= b.(:day, []) %> / <%= b.(:month, []) %> / <%= b.(:year, [options: 2021..2024]) %>
+  <% end %>
   <%= error_tag f, :date %>
+
+<br>
 
   <%= label f, :desc %>
   <%= textarea f, :desc, class: "form-control" %>

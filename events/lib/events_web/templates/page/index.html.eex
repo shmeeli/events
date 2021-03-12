@@ -7,7 +7,7 @@
     <tr>
       <th>Name</th>
       <th>Date</th>
-      <th>Desc</th>
+      <th>Host</th>
 
       <th></th>
     </tr>
@@ -17,16 +17,24 @@
     <tr>
       <td><%= happening.name %></td>
       <td><%= happening.date %></td>
-      <td><%= happening.desc %></td>
+      <td><%= happening.username %></td>
 
       <td>
         <span><%= link "View", to: Routes.happening_path(@conn, :show, happening) %></span>
-        <span><%= link "Edit", to: Routes.happening_path(@conn, :edit, happening) %></span>
-        <span><%= link "Delete", to: Routes.happening_path(@conn, :delete, happening), method: :delete, data: [confirm: "Are you sure?"] %></span>
+
+        <%= if current_user_id?(@conn, happening.user_id) do %>
+          <span><%= link "Edit", to: Routes.happening_path(@conn, :edit, happening) %></span>
+        <% end %>
+
+        <%= if current_user_id?(@conn, happening.user_id) do %>
+          <span><%= link "Delete", to: Routes.happening_path(@conn, :delete, happening), method: :delete, data: [confirm: "Are you sure?"] %></span>
+        <% end %>
       </td>
     </tr>
 <% end %>
   </tbody>
 </table>
 
-<span><%= link "New Event", to: Routes.happening_path(@conn, :new) %></span>
+<%= if have_current_user?(@conn) do %>
+      <p><%= link "New Event", to: Routes.happening_path(@conn, :new) %></p>
+    <% end %>

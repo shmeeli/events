@@ -1,0 +1,5 @@
+
+    <strong><%= @comment.body %></strong>
+
+<span><%= link "Edit", to: Routes.comment_path(@conn, :edit, @comment) %></span>
+<span><%= link("Back", to: Routes.page_path(@conn, :index)) %></span>

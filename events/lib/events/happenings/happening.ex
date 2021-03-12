@@ -6,7 +6,9 @@ defmodule Events.Happenings.Happening do
     field :date, :string
     field :desc, :string
     field :name, :string
-    #belongs_to :user, Events.Users.User
+    field :username, :string
+    belongs_to :user, Events.Users.User
+    has_many :comments, Events.Comments.Comment, on_delete: :nothing
 
     timestamps()
   end
@@ -14,7 +16,7 @@ defmodule Events.Happenings.Happening do
   @doc false
   def changeset(happening, attrs) do
     happening
-    |> cast(attrs, [:name, :date, :desc])
-    |> validate_required([:name, :date, :desc])
+    |> cast(attrs, [:name, :date, :desc, :user_id, :username])
+    |> validate_required([:name, :date, :desc, :user_id, :username])
   end
 end

@@ -5,7 +5,7 @@
     <tr>
       <th>Name</th>
       <th>Date</th>
-      <th>Desc</th>
+      <th>Host</th>
 
       <th></th>
     </tr>
@@ -15,7 +15,7 @@
     <tr>
       <td><%= happening.name %></td>
       <td><%= happening.date %></td>
-      <td><%= happening.desc %></td>
+      <td><%= happening.user.name %></td>
 
       <td>
         <span><%= link "Show", to: Routes.happening_path(@conn, :show, happening) %></span>
@@ -27,4 +27,6 @@
   </tbody>
 </table>
 
-<span><%= link "New Event", to: Routes.happening_path(@conn, :new) %></span>
+<%= if have_current_user?(@conn) do %>
+      <p><%= link "New Event", to: Routes.happening_path(@conn, :new) %></p>
+    <% end %>

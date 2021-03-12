@@ -1,5 +1,5 @@
 <!--Code adapted from Nat Tuck's lecture -->
-<%= form_for @changeset, @action, fn f -> %>
+<%= form_for @changeset, @action, [multipart: true], fn f -> %>
   <%= if @changeset.action do %>
     <div class="alert alert-danger">
       <p>Oops, something went wrong! Please check the errors below.</p>
@@ -13,6 +13,14 @@
   <%= label f, :email %>
   <%= text_input f, :email, class: "form-control" %>
   <%= error_tag f, :email %>
+
+
+    <div class="form-group">
+      <%= label f, :photo %>
+      <%= file_input f, :photo, class: "form-control" %>
+      <%= error_tag f, :photo %>
+    </div>
+
 
   <div>
     <%= submit "Save", class: "btn btn-primary" %>
